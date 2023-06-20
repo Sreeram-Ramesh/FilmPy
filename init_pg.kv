@@ -1,0 +1,2499 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+#: import toast kivymd.toast.toast
+
+
+WindowManager:
+	id: scr_mgr
+	#transition: NoTransition()
+	Startup:
+	Login:
+	Signup:
+	Home:
+	ReadWrite:
+	Reviews:
+	Search:
+	Account:
+	YourReviews:
+	MovieSuggestion:
+	Genre:
+
+
+<Startup>:
+	markup: True
+	name: "startup"
+	
+
+	MDCard:
+		pos_hint: {'center_x':0.5,'center_y':0.5}
+		padding: 25
+		spacing: 25
+		size_hint_x: None
+		size_hint_y: None
+		size: 420,580
+		elevation: 30
+		orientation: 'vertical'
+
+		Image:
+			source: app.img
+			allow_stretch: True
+			keep_ratio: 0
+			mipmap: True
+			size_hint: None,None
+			size: 240,240
+			pos_hint: {'center_x': 0.5,'center_y': 0.5}
+
+		Widget:
+			size_hint_y: None
+			height: 100
+
+		MDFillRoundFlatButton:
+			text: '[b]        Login        [/b]'
+			font_size: 22
+			background_normal: ''
+			md_bg_color: 32/225, 118/255, 247/255, 1
+			pos_hint: {'center_x': 0.5}
+			on_release: 
+				app.root.current = "login"
+				root.manager.transition.direction = "left"
+
+		#MDLabel:
+			#markup: True
+			#text: "[sup]_________[/sup]   or   [sup]_________[/sup]"
+			#halign: 'center'
+			#height: self.texture_size[1]
+			#padding_y: 15
+
+
+		MDFillRoundFlatButton:
+			text: '[b]      Sign up      [/b]'
+			font_size: 22	
+			background_normal: ''
+			md_bg_color: 12/225, 194/255, 24/255, 1	
+			pos_hint: {'center_x': 0.5}
+			on_release: 
+				app.root.current = "signup"
+				root.manager.transition.direction = "left"
+
+		Widget:
+			size_hint_y: None
+			height: 0
+
+
+<Login>:
+	markup: True
+	name: "login"
+
+	MDCard:
+		pos_hint: {'center_x':0.5,'center_y':0.5}
+		padding: 25
+		spacing: 25
+		size_hint_x: None
+		size_hint_y: None
+		size: 400,500
+		elevation: 15
+		orientation: 'vertical'
+
+		MDLabel:
+			markup: True
+			id: login
+			text: '[color=#0080ff][b]Login[/b][/color]'
+			font_style: "H3"
+			font_size: 35
+			halign: 'center'
+			size_hint_y: None
+			height: self.texture_size[1]
+			padding_y: 15
+
+		MDTextField:
+			id: loguser
+			hint_text: 'Username'
+			icon_right: 'account'
+			font_size: 20			
+			pos_hint: {'center_x':0.5}
+
+		BoxLayout:
+			orientation: "vertical"
+
+
+			MDTextField:
+				id: logpassword
+				hint_text: 'Password'
+				icon_right: 'eye-off'
+				font_size: 20
+				pos_hint: {'center_x':0.5}
+				password: True	  	
+
+			MDFlatButton:
+				text: "Forgot password?"
+				halign: "left"
+				on_release:
+					app.forgot_passwd(loguser.text, logpassword.text) if app.is_internet_available() else app.show_alert_dialog(app.no_net)
+
+		Widget:
+			size_hint_y: None
+			height: 30
+
+		MDFlatButton:
+			text: "Don't have an account?"
+			halign: "left"
+			on_release: 
+				app.root.current = "signup"
+				loguser.text = ""
+				logpassword.text = ""
+				root.manager.transition.direction = "left"		
+
+		MDRaisedButton:
+			text: '[b]LOGIN[/b]'
+			font_size: 14
+			size_hint_x: 1
+			background_normal: ''
+			md_bg_color: 0/255, 100/255, 255/255, 1	
+			on_press:
+				root.manager.transition = NoTransition()
+			on_release: 
+				app.logger() if app.is_internet_available() else app.show_alert_dialog(app.no_net)
+
+
+
+<Signup>:
+	id: signup
+	name: "signup"
+	markup: True
+
+	MDCard:
+		orientation:"vertical"
+		size_hint_x: None
+		size_hint_y: None
+		size:400,500
+		pos_hint:{"center_x":.5,"center_y":.5}
+		elevation:15
+		padding:25
+		spacing:25
+		
+		MDLabel:
+			markup: True
+			id: signup
+			text: '[color=#7231eb][b]Sign Up[/b][/color]'
+			font_style: "H3"
+			font_size: 35
+			halign: 'center'
+			size_hint_y: None
+			height: self.texture_size[1]
+			padding_y: 15
+		
+		MDTextField:
+			id: signupuser
+			hint_text:"Username"
+			icon_right:"account"
+			pos_hint:{"center_x":.5,"center_y":0.65}
+			font_size:20
+
+		MDTextField:
+			id: signemail
+			hint_text:"Email id"
+			icon_right:"email"
+			pos_hint:{"center_x":.5,"center_y":0.55}
+			font_size:20
+    
+		MDTextField:
+			id: signpassword
+			hint_text:"Password"
+			icon_right:"lock"
+			pos_hint:{"center_x":.5,"center_y":0.45}
+			font_size:20
+
+		MDFlatButton:
+			text: "Already have an account?"
+			halign: "left"
+			on_release: 
+				app.root.current = "login"
+				signupuser.text = ""
+				signemail.text = ""
+				signpassword.text = ""
+				root.manager.transition.direction = "left"	
+    
+		MDRaisedButton:
+			text: '[b]SIGNUP[/b]'
+			font_size: 14
+			size_hint_x: 1
+			background_normal: ''
+			md_bg_color: 72/255, 7/255, 247/255, 1
+			on_press:
+				root.manager.transition = NoTransition()
+			on_release: 
+				app.signer() if app.is_internet_available() else app.show_alert_dialog(app.no_net)
+
+<Home>:
+	id: home
+	name: "home"
+
+	MDNavigationLayout:
+		
+		ScreenManager:
+			
+			Screen:
+				
+				BoxLayout:
+					orientation: 'vertical'
+					
+					MDToolbar:
+						title: 'Home'
+						md_bg_color: 0, 61/255, 130/255 , 1
+						#left_action_items: [['menu', lambda x: nav_drawer.set_state('toggle')]]
+
+						right_action_items:[['movie-search',lambda x:app.home_search()],['account',lambda x: app.home_account()],['logout',lambda x:app.home_logout()]]
+						elevation:5
+					
+					ScrollView:
+						size:(root.width , root.height)
+						pos_hint: {'x':0,'y':0}		
+						do_scroll_x: False
+						do_scroll_y: True
+
+						GridLayout:
+							cols: 1
+							size_hint_y: None
+							size_hint_x: 1
+							pos_hint: {"center_x":.5}
+							height: self.minimum_height
+							spacing: 50
+							padding: 50
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title0
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image0
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username0
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									MDLabel:
+										id: time0
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate0
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review0
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title1
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image1
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username1
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									MDLabel:
+										id: time1
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate1
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review1
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title2
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image2
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username2
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									MDLabel:
+										id: time2
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate2
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review2
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title3
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image3
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username3
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									MDLabel:
+										id: time3
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate3
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review3
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title4
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image4
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username4
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									MDLabel:
+										id: time4
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate4
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review4
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title5
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image5
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username5
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									MDLabel:
+										id: time5
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate5
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review5
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title6
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image6
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username6
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									MDLabel:
+										id: time6
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate6
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review6
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+							GridLayout:
+								cols: 2
+								pos_hint:{"center_x":.5}
+								size_hint_y: None
+								size_hint_x: None
+								width: 1100
+								height: self.minimum_height
+								spacing: 10
+								padding: 10
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: 5
+
+									MDLabel:
+										id: title7
+										markup: True
+										text: ""
+										halign: "center"
+										font_style: "H6"
+
+									Widget:
+										size_hint_y: None
+										height: 15
+
+									BoxLayout:	
+										orientation: "vertical"
+										size_hint_x: 1
+										size_hint_y: None
+										height: 300
+										pos_hint:{"center_x":.5}
+
+										AsyncImage:
+											id: image7
+											mipmap: True
+											source: ''
+
+								BoxLayout:
+									orientation: "vertical"
+									pos_hint:{"center_x":.5}
+									size_hint_y: None
+									size_hint_x: 1
+									#width: 800
+									height: self.minimum_height
+									spacing: 5
+									padding: [5,5,5,120]
+
+									MDRectangleFlatIconButton:
+										id: username7
+										icon: "account-circle"
+										text: ""
+										font_size: 22
+										theme_text_color: "Custom"
+										text_color: (1, 1, 1, 1)
+										line_color: (0, 0, 0, 0)
+										theme_icon_color: "Custom"
+										icon_color: (14/255, 122/255, 254/255, 1)
+
+									Widget:
+										size_hint_y: None
+										height: 15
+										
+									MDLabel:
+										id: time7
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (0/255, 255/255, 255/255, 1)
+										halign: "left"
+										font_style: "Caption"
+
+									Widget:
+										size_hint_y: None
+										height: 20
+
+									MDLabel:
+										id: rate7
+										markup: True
+										text: ""
+										theme_text_color: "Custom"
+										text_color: (255/255, 215/255, 0/255, 1)
+										halign: "left"
+										font_style: "Subtitle2"								
+
+									Widget:
+										size_hint_y: None
+										height: 85
+
+									MDLabel:
+										id: review7
+										markup: True
+										text: ""
+										halign: "left"
+										font_style: "Subtitle1"
+
+							Widget:
+								size_hint_y: None
+								height: 15
+
+							MDCard:
+								orientation: "vertical"
+								size_hint_x: 1
+								size_hint_y: None
+								height: 5
+								elevation: 0
+
+
+
+<Account>:
+	id: account
+	name: "account"
+
+	ScrollView:
+		size:(root.width , root.height)
+		pos_hint: {'x':0,'y':0}		
+		do_scroll_x: False
+		do_scroll_y: True
+
+		GridLayout:
+			cols: 1
+			size_hint_y: None
+			size_hint_x: 1
+			height: self.minimum_height
+			spacing: 50
+			padding: 25
+
+			MDRectangleFlatIconButton:
+				markup: True
+				text: "[b]BACK[/b]"
+				icon: "arrow-left-circle-outline"
+				font_size: 19
+				size_hint_y: None
+				height: 30
+				theme_text_color: "Custom"
+				text_color: 14/255, 122/255, 254/255, 1
+				line_color: 0, 0, 0, 0
+				theme_icon_color: "Custom"
+				icon_color: 14/255, 122/255, 254/255, 1
+				pos_hint: {"left": 1, "center_y": .5}
+				on_release:
+					app.root.current = "home"
+					root.manager.transition.direction = "right"	
+
+			MDList:
+
+				OneLineAvatarIconListItem:
+					markup: True
+					text: "[b]Your Reviews[/b]"
+					on_release:
+						app.root.current = "yourreviews"
+
+					IconLeftWidget:
+						icon: "pencil"
+						theme_text_color: "Custom"
+						text_color: 14/255, 122/255, 254/255, 1
+
+				OneLineAvatarIconListItem:
+					markup: True
+					text: "[b]Movie Suggestions[/b]"
+					on_release:
+						app.root.current = "moviesuggestion"
+
+					IconLeftWidget:
+						icon: "movie-filter"
+						theme_text_color: "Custom"
+						text_color: 14/255, 122/255, 254/255, 1
+
+<ReadWrite>:
+	id: readwrite
+	name: "readwrite"
+
+	ScrollView:
+		size:(root.width , root.height)
+		pos_hint: {'x':0,'y':0}		
+		do_scroll_x: False
+		do_scroll_y: True
+		
+		GridLayout:
+			id: readwriteview
+			cols: 1
+			size_hint_y: None
+			size_hint_x: 1
+			height: self.minimum_height
+			spacing: 50
+			padding: 50
+
+			MDRectangleFlatIconButton:
+				markup: True
+				text: "[b]BACK[/b]"
+				icon: "arrow-left-circle-outline"
+				font_size: 19
+				size_hint_y: None
+				height: 30
+				theme_text_color: "Custom"
+				text_color: 14/255, 122/255, 254/255, 1
+				line_color: 0, 0, 0, 0
+				theme_icon_color: "Custom"
+				icon_color: 14/255, 122/255, 254/255, 1
+				pos_hint: {"left": 1, "center_y": .5}
+				on_release:
+					app.root.current = "search"
+					root.manager.transition.direction = "right"			
+
+			GridLayout:
+				id: moviecontent
+				cols: 2
+				pos_hint:{"center_x":.5}
+				size_hint_y: None
+				size_hint_x: 1
+				#width: 800
+				height: self.minimum_height
+				spacing: 10
+				padding: 20
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 50
+
+					MDLabel:
+						id: title
+						markup: True
+						text: ""
+						halign: "center"
+						font_style: "H4"
+
+					BoxLayout:
+						orientation: "vertical"
+						size_hint_x: 1
+						size_hint_y: None
+						height: 500
+
+						AsyncImage:
+							id: image
+							source: ''
+							mipmap: True
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 50
+
+					MDLabel:
+						id: plotoutline
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					Widget:
+						id: widget
+						size_hint_y: None
+						height: 30
+
+					MDLabel:
+						id: genres
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: director
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: year
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: cast
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDRectangleFlatIconButton:
+						markup: True
+						text: "[b]Read Reviews[/b]"
+						icon: "book-open-page-variant"
+						font_size: 19
+						size_hint_y: None
+						height: 30
+						theme_text_color: "Custom"
+						text_color: 14/255, 122/255, 254/255, 1
+						line_color: 14/255, 122/255, 254/255, 1
+						theme_icon_color: "Custom"
+						icon_color: 14/255, 122/255, 254/255, 1
+						pos_hint: {"left": 1, "center_y": .5}
+						on_release:
+							app.root.current = "reviews"
+							root.manager.transition.direction = "left"		
+
+
+
+			MDCard:
+				orientation:"vertical"
+				size_hint_x: None
+				size_hint_y: None
+				size:900,550
+				pos_hint:{"center_x":.5,"center_y":.5}
+				elevation:15
+				padding:25
+				spacing:25
+		
+				MDLabel:
+					markup: True
+					text: "Your Review"
+					halign: "left"
+					font_style: "H5"
+	
+				MDTextFieldRect:
+					id: review
+					size_hint_x: None
+					size_hint_y: None
+					width: 700
+					height: 300
+					multiline: True
+					pos_hint: {"center_x": .5, "center_y": .5}
+					font_size: "18sp"
+
+				GridLayout:
+					size_hint_x: None
+					size_hint_y: None
+					size:300,50
+					cols:2
+					MDLabel:
+						markup: True
+						text: "Your Rating"
+						halign: "left"
+						font_style: "H5"
+	
+					Spinner:
+						id: spin_rev
+						size_hint_x: None
+						width: 80
+						text: "0"	
+						values: ['0','1','2','3','4','5','6','7','8','9','10']
+	
+						on_text: root.spinner_clicked(spin_rev.text)
+
+				MDRaisedButton:
+					id: submit
+					markup: True
+					text: "[b]Submit[/b]"
+					font_size: 19
+					size_hint_y: None
+					height: 30
+					background_normal: ''
+					md_bg_color: 14/255, 122/255, 254/255, 1
+					pos_hint: {"left": 1, "center_y": .5}
+					on_press:
+						self.disabled = True
+					on_release:
+						app.revwriter() if app.is_internet_available() else 	app.show_alert_dialog(app.no_net)
+
+<Reviews>:
+	id: reviews
+	name: "reviews"
+	
+	ScrollView:
+		size:(root.width , root.height)
+		pos_hint: {'x':0,'y':0}		
+		do_scroll_x: False
+		do_scroll_y: True
+
+		GridLayout:
+			id: reviewbox
+			cols: 1
+			size_hint_y: None
+			size_hint_x: 1
+			height: self.minimum_height
+			spacing: 50
+			padding: 50
+
+			MDRectangleFlatIconButton:
+				markup: True
+				text: "[b]BACK[/b]"
+				icon: "arrow-left-circle-outline"
+				font_size: 19
+				size_hint_y: None
+				height: 30
+				theme_text_color: "Custom"
+				text_color: 14/255, 122/255, 254/255, 1
+				line_color: 0, 0, 0, 0
+				theme_icon_color: "Custom"
+				icon_color: 14/255, 122/255, 254/255, 1
+				pos_hint: {"left": 1, "center_y": .5}
+				on_release:
+					app.root.current = "readwrite"
+					root.manager.transition.direction = "right"	
+
+			GridLayout:
+				id: reviewboxin
+				cols: 1
+				size_hint_y: None
+				size_hint_x: None
+				width: 1100
+				height: self.minimum_height
+				spacing: 25
+				padding: 25
+
+<Search>:
+	id: search
+	name: "search"
+
+	ScrollView:
+		size:(root.width , root.height)
+		pos_hint: {'x':0,'y':0}		
+		do_scroll_x: False
+		do_scroll_y: True
+
+		GridLayout:
+			id: main
+			cols: 1
+			size_hint_y: None
+			size_hint_x: 1
+			pos_hint: {"center_x":.5}
+			height: self.minimum_height
+			spacing: 50
+			padding: 25
+
+			MDRectangleFlatIconButton:
+				markup: True
+				text: "[b]BACK[/b]"
+				icon: "arrow-left-circle-outline"
+				font_size: 19
+				size_hint_y: None
+				height: 30
+				theme_text_color: "Custom"
+				text_color: 14/255, 122/255, 254/255, 1
+				line_color: 0, 0, 0, 0
+				theme_icon_color: "Custom"
+				icon_color: 14/255, 122/255, 254/255, 1
+				pos_hint: {"left": 1, "center_y": .5}
+				on_release:
+					searchquery.text = ""
+					app.clearwidget_search()
+					app.root.current = "home"
+					root.manager.transition.direction = "right"
+
+			GridLayout:
+				cols: 3
+				size_hint_y: None
+				size_hint_x: None
+				pos_hint: {"center_x":.5}
+				width: 900
+				height: 20
+				spacing: 5
+				padding: 25
+
+				Widget:
+					size_hint_x: None
+					width: 250
+
+				MDTextFieldRect:
+					id: searchquery
+					hint_text: "Search Movie"
+					size_hint: 1 , 1
+					font_size: 21
+					multiline: False
+					pos_hint: {"center_x":.5}
+					spacing:5
+
+				MDRaisedButton:
+					markup: True
+					text: "[b]Search[/b]"
+					font_size: 19
+					md_bg_color: 14/255, 122/255, 254/255, 1
+					on_press:
+						app.searchquery() if app.is_internet_available() else 	app.show_alert_dialog(app.no_net)
+
+			Widget:
+				size_hint_y: None
+				height: 20
+
+			BoxLayout:
+				id: searchbox
+				orientation: "vertical"
+				size_hint_x: 1
+				size_hint_y: None
+				height: self.minimum_height
+
+
+<YourReviews>:
+	id: yourreviews
+	name: "yourreviews"
+	
+	ScrollView:
+		size:(root.width , root.height)
+		pos_hint: {'x':0,'y':0}		
+		do_scroll_x: False
+		do_scroll_y: True
+
+		GridLayout:
+			id: yourreviewbox
+			cols: 1
+			size_hint_y: None
+			size_hint_x: 1
+			height: self.minimum_height
+			spacing: 50
+			padding: 50
+
+			MDRectangleFlatIconButton:
+				markup: True
+				text: "[b]BACK[/b]"
+				icon: "arrow-left-circle-outline"
+				font_size: 19
+				size_hint_y: None
+				height: 30
+				theme_text_color: "Custom"
+				text_color: 14/255, 122/255, 254/255, 1
+				line_color: 0, 0, 0, 0
+				theme_icon_color: "Custom"
+				icon_color: 14/255, 122/255, 254/255, 1
+				pos_hint: {"left": 1, "center_y": .5}
+				on_release:
+					app.root.current = "account"
+					root.manager.transition.direction = "right"	
+
+			GridLayout:
+				id: yourreviewboxin
+				cols: 1
+				size_hint_y: None
+				size_hint_x: None
+				width: 1100
+				height: self.minimum_height
+				spacing: 25
+				padding: 25
+
+
+<MovieSuggestion>:
+	id: moviesuggestion
+	name: "moviesuggestion"
+
+	ScrollView:
+		size:(root.width , root.height)
+		pos_hint: {'x':0,'y':0}		
+		do_scroll_x: False
+		do_scroll_y: True
+
+		GridLayout:
+			cols: 1
+			size_hint_y: None
+			size_hint_x: 1
+			height: self.minimum_height
+			spacing: 50
+			padding: 25
+
+			MDRectangleFlatIconButton:
+				markup: True
+				text: "[b]BACK[/b]"
+				icon: "arrow-left-circle-outline"
+				font_size: 19
+				size_hint_y: None
+				height: 30
+				theme_text_color: "Custom"
+				text_color: 14/255, 122/255, 254/255, 1
+				line_color: 0, 0, 0, 0
+				theme_icon_color: "Custom"
+				icon_color: 14/255, 122/255, 254/255, 1
+				pos_hint: {"left": 1, "center_y": .5}
+				on_release:
+					app.root.current = "account"
+					root.manager.transition.direction = "right"
+
+			MDLabel:
+				markup: True
+				text: "[b]Top suggestions based on your preferences[/b]"
+				halign: "center"
+				font_style: "H3"
+
+			GridLayout:
+				id: moviecontent0
+				cols: 2
+				pos_hint:{"center_x":.5}
+				size_hint_y: None
+				size_hint_x: 1
+				#width: 800
+				height: self.minimum_height
+				spacing: 10
+				padding: 20
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 50
+
+					MDLabel:
+						id: title0
+						markup: True
+						text: ""
+						halign: "center"
+						font_style: "H4"
+
+					BoxLayout:
+						orientation: "vertical"
+						size_hint_x: 1
+						size_hint_y: None
+						height: 500
+
+						AsyncImage:
+							id: image0
+							source: ''
+							mipmap: True
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 90
+
+					MDLabel:
+						id: plotoutline0
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					Widget:
+						id: widget0
+						size_hint_y: None
+						height: 30
+
+					MDLabel:
+						id: genres0
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: director0
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: year0
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: cast0
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+			MDCard:
+				orientation: "vertical"
+				size_hint_x: 1
+				size_hint_y: None
+				height: 5
+				elevation: 0
+
+
+			GridLayout:
+				id: moviecontent1
+				cols: 2
+				pos_hint:{"center_x":.5}
+				size_hint_y: None
+				size_hint_x: 1
+				#width: 800
+				height: self.minimum_height
+				spacing: 10
+				padding: 20
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 50
+
+					MDLabel:
+						id: title1
+						markup: True
+						text: ""
+						halign: "center"
+						font_style: "H4"
+
+					BoxLayout:
+						orientation: "vertical"
+						size_hint_x: 1
+						size_hint_y: None
+						height: 500
+
+						AsyncImage:
+							id: image1
+							source: ''
+							mipmap: True
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 90
+
+					MDLabel:
+						id: plotoutline1
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					Widget:
+						id: widget1
+						size_hint_y: None
+						height: 30
+
+					MDLabel:
+						id: genres1
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: director1
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: year1
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: cast1
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+			MDCard:
+				orientation: "vertical"
+				size_hint_x: 1
+				size_hint_y: None
+				height: 5
+				elevation: 0
+
+			GridLayout:
+				id: moviecontent2
+				cols: 2
+				pos_hint:{"center_x":.5}
+				size_hint_y: None
+				size_hint_x: 1
+				#width: 800
+				height: self.minimum_height
+				spacing: 10
+				padding: 20
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 50
+
+					MDLabel:
+						id: title2
+						markup: True
+						text: ""
+						halign: "center"
+						font_style: "H4"
+
+					BoxLayout:
+						orientation: "vertical"
+						size_hint_x: 1
+						size_hint_y: None
+						height: 500
+
+						AsyncImage:
+							id: image2
+							source: ''
+							mipmap: True
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					size_hint_x: 1
+					#width: 800
+					height: self.minimum_height
+					spacing: 50
+					padding: 90
+
+					MDLabel:
+						id: plotoutline2
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					Widget:
+						id: widget2
+						size_hint_y: None
+						height: 30
+
+					MDLabel:
+						id: genres2
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: director2
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: year2
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+					MDLabel:
+						id: cast2
+						markup: True
+						text: ""
+						font_style: "Subtitle1"	
+
+			MDCard:
+				orientation: "vertical"
+				size_hint_x: 1
+				size_hint_y: None
+				height: 5
+				elevation: 0
+
+
+<Genre>:
+	id: genre
+	name: "genre"
+
+	ScrollView:
+		size:(root.width , root.height)
+		pos_hint: {'x':0,'y':0}		
+		do_scroll_x: False
+		do_scroll_y: True
+
+		GridLayout:
+			cols: 1
+			size_hint_y: None
+			size_hint_x: 1
+			height: self.minimum_height
+			spacing: 50
+			padding: 100
+
+			MDLabel:
+				markup: True
+				text: "[b]Select your favourite genres (atleast 4)[/b]"
+				halign: "center"
+				font_style: "H5"
+
+			GridLayout:
+				cols: 2
+				pos_hint:{"center_x":.5}
+				size_hint_y: None
+				size_hint_x: 1
+				width: 650
+				height: self.minimum_height
+				spacing: 10
+				padding: 25	
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					#size_hint_x: 1
+					width: 300
+					height: self.minimum_height
+					spacing: 1
+					padding: 10
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "DRAMA"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button0
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("DRAMA") 
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "ACTION"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button1
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("ACTION")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "THRILLER"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button2
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("THRILLER")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "BIOGRAPHY"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button3
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("BIOGRAPHY")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "HISTORY"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button4
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("HISTORY")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "ADVENTURE"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button5
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("ADVENTURE")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "FANTASY"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button6
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("FANTASY")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "WESTERN"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button7
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("WESTERN")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "ROMANCE"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button8
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("ROMANCE")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "SCI-FI"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button9
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("SCI-FI")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "MYSTERY"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button10
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("MYSTERY")
+
+				GridLayout:
+					cols: 1
+					pos_hint:{"center_x":.5}
+					size_hint_y: None
+					#size_hint_x: 1
+					width: 300
+					height: self.minimum_height
+					spacing: 1
+					padding: 10
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "CRIME"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button11
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("CRIME")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "HORROR"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button12
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("HORROR")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "FAMILY"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button13
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("FAMILY")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "COMEDY"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button14
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("COMEDY")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "WAR"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button15
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("WAR")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "ANIMATION"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button16
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("ANIMATION")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "MUSIC"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button17
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("MUSIC")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "MUSICAL"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button18
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("MUSICAL")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "FILM-NOIR"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button19
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("FILM-NOIR")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "SPORT"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button20
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("SPORT")
+
+					GridLayout:
+						cols: 2
+						pos_hint:{"center_x":.5}
+						size_hint_y: None
+						size_hint_x: 1
+						#width: 800
+						height: self.minimum_height
+						spacing: 50
+						padding: 50
+				
+						MDLabel:
+							markup: True
+							text: "DOCUMENTARY"
+							halign: "left"
+							font_style: "H6"
+
+						MDIconButton:
+							id: button21
+							icon: "checkbox-blank"
+							on_press:
+								self.icon = "checkbox-marked"
+								app.genre_button("DOCUMENTARY")
+
+
+			GridLayout:
+				cols: 2
+				pos_hint:{"center_x":.5}
+				size_hint_y: None
+				size_hint_x: 1
+				#width: 800
+				height: self.minimum_height
+				spacing: 20
+				padding: 20
+
+				MDRaisedButton:
+					markup: True
+					text: "[b]Clear selection[/b]"
+					font_size: 19
+					md_bg_color: 255/255, 0/255, 0/255, 1
+					on_press:
+						app.clear_genre()
+
+				MDRaisedButton:
+					markup: True
+					text: "[b]Submit[/b]"
+					font_size: 19
+					md_bg_color: 14/255, 122/255, 254/255, 1
+					on_press:
+						app.submit_genre()
