@@ -1,8 +1,10 @@
 # FilmPy
-FilmPy is a film review desktop app developed using Kivy, a python based framework.
+FilmPy is a film review desktop app developed using Kivy, a Python-based framework.
+
+![FilmPy circle logo](./Images/flm.png "FilmPy Logo").
 
 ### History
-This desktop app was developed in the senior year of my high school and was submitted for my Python class project. This was developed in a timespan of about 4-6 months as it required some learning.
+This desktop app was developed in the senior year of my high school and was submitted for my Python class project. This was developed in a time span of about 4-6 months as it required some learning.
 
 ### Tech Stack
 ```
